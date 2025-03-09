@@ -71,16 +71,16 @@ export default function Page() {
     const fetchReview = async () => {
         //cheak session user id
         if (!session?.user?.id) {
-            console.warn("Session ยังไม่พร้อม หรือไม่มี user ID");
+            console.warn("Session is not ready or does not have a user ID.");
             return;
         }
 
         try {
             const response = await axios.get<Review[]>(`/api/review/${session.user.id}`);
-            console.log("✅ รีวิวที่ดึงมา:", response.data);
+            console.log("✅ Pulled reviews:", response.data);
             setReviews(response.data);
         } catch (error) {
-            console.error("❌ เกิดข้อผิดพลาดในการดึงรีวิว:", error);
+            console.error("❌ Error occurred while fetching reviews.:", error);
         }
     };
 
@@ -91,7 +91,7 @@ export default function Page() {
             // console.log(allCourse);
 
         } catch (error) {
-            console.error("❌ เกิดข้อผิดพลาดในการดึงรีวิว:", error);
+            console.error("❌ Error occurred while fetching reviews.:", error);
         }
     };
 
@@ -102,14 +102,14 @@ export default function Page() {
 
         try {
             if (!session?.user?.id) {
-                console.warn("Session ยังไม่พร้อม หรือไม่มี user ID");
+                console.warn("Session is not ready or does not have a user ID.");
                 return;
             }
             await axios.delete(`/api/review/${session.user.id}?reviewId=${Id}`);
             fetchReview();
         }
         catch (error) {
-            console.error("เกิดข้อผิดพลาดในการลบรีวิว: ", error);
+            console.error("Error deleting the review.: ", error);
         }
     }
 
@@ -149,7 +149,7 @@ export default function Page() {
     const handleSubmitEdit = async (id: string) => {
         try {
             if (!session?.user?.id) {
-                console.warn("Session ยังไม่พร้อม หรือไม่มี user ID");
+                console.warn("Session is not ready or does not have a user ID.");
                 return;
             }
 
@@ -169,7 +169,7 @@ export default function Page() {
             });
         }
         catch (error) {
-            console.error("เกิดข้อผิดพลาดในการอัพเดทรีวิว: ", error);
+            console.error("Error updating the review.: ", error);
         }
     };
 
@@ -188,7 +188,7 @@ export default function Page() {
         e.preventDefault();
 
         if (!session?.user?.id) {
-            console.warn("Session ยังไม่พร้อม หรือไม่มี user ID");
+            console.warn("Session is not ready or does not have a user ID.");
             return;
         }
 
@@ -220,7 +220,7 @@ export default function Page() {
             }, 1000);
         }
         catch (error) {
-            console.error("เกิดข้อผิดพลาดในการบันทึกรีวิว: ", error);
+            console.error("Error saving the review.: ", error);
         }
     }
     return (
@@ -229,26 +229,26 @@ export default function Page() {
             <div className="mt-20 bg-white p-8 max-w-3xl mx-auto rounded-lg">
 
                 {/* input form */}
-                <div className="max-w-2xl mx-auto  p-6 bg-blue-900 shadow-lg rounded-lg text-white">
-                    <h1 className="text-3xl font-bold text-center mb-6">✍️ เขียนรีวิวของฉัน</h1>
+                <div className="max-w-3xl mx-auto  p-6 bg-gray-800 shadow-lg rounded-lg text-white">
+                    <h1 className="text-4xl font-bold text-center mb-6">✍️ Write my review</h1>
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         {/* course */}
                         <div className="relative">
-                            <label className="block text-lg font-semibold mb-2">📚 ชื่อคอร์ส</label>
+                            <label className="block text-lg font-semibold mb-2">📚 Course name</label>
                             <input
-                                className="w-full p-3 border border-blue-700 rounded-md bg-white text-black focus:ring-2 focus:ring-blue-600"
+                                className="w-full p-3 border border-gray-700 rounded-md bg-white text-black focus:ring-2 focus:ring-gray-600"
                                 type="text"
-                                placeholder="กรอกชื่อคอร์ส"
+                                placeholder="Enter the course name"
                                 name="newNameCourse"
                                 value={newReview.newNameCourse}
                                 onChange={handleChange}
                             />
                             {suggestions.length > 0 && (
-                                <ul className="absolute left-0 w-full bg-white border border-blue-700 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto z-10 mt-2">
+                                <ul className="absolute left-0 w-full bg-white border border-gray-700 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto z-10 mt-2">
                                     {suggestions.map((course: Course) => (
                                         <li
                                             key={course.id}
-                                            className="text-lg p-3 hover:bg-blue-100 cursor-pointer text-black transition duration-200"
+                                            className="text-lg p-3 hover:bg-gray-100 cursor-pointer text-black transition duration-200"
                                             onClick={() => handleSelect(course.name)}
                                         >
                                             {course.name}
@@ -261,10 +261,10 @@ export default function Page() {
 
                         {/* content */}
                         <div>
-                            <label className="block text-lg font-semibold mb-1">📝 คอมเมนต์</label>
+                            <label className="block text-lg font-semibold mb-1">📝 Comment</label>
                             <textarea
-                                className="w-full p-3 border border-blue-700 rounded bg-white text-black h-40"
-                                placeholder="เขียนรีวิวของคุณที่นี่..."
+                                className="w-full p-3 border border-gray-700 rounded bg-white text-black h-40"
+                                placeholder="Write your review here...."
                                 name="newContent"
                                 value={newReview.newContent}
                                 onChange={handleChange}
@@ -273,28 +273,28 @@ export default function Page() {
                         </div>
                         {/* rating */}
                         <div>
-                            <label className="block text-lg font-semibold mb-1">⭐ ให้คะแนน (0-5)</label>
+                            <label className="block text-lg font-semibold mb-1">⭐ Rate (0-5)</label>
                             <input
-                                className="w-full p-3 border border-blue-700 rounded bg-white text-black"
+                                className="w-full p-3 border border-gray-700 rounded bg-white text-black"
                                 type="number"
                                 min="1"
                                 max="5"
-                                placeholder="ให้คะแนน (1-5)"
+                                placeholder="Rate (1-5)"
                                 name="newRating"
                                 value={newReview.newRating}
                                 onChange={handleChange}
                             />
                         </div>
                         <button type="submit"
-                            className="bg-blue-700 hover:bg-blue-800 text-xl font-bold p-3 text-center w-full text-white rounded transition duration-200"
+                            className="bg-gray-600 hover:bg-blue-500 text-xl font-bold p-3 text-center w-full text-white rounded transition duration-200"
                         >
-                            ➕ เพิ่มรีวิว
+                            ➕ Add review
                         </button>
                     </form>
                 </div>
 
                 {/* show myReview */}
-                <h2 className="mt-5 text-3xl font-bold text-gray-800 mb-4">รีวิวของฉัน</h2>
+                <h2 className="mt-5 text-3xl font-bold text-gray-800 mb-4">My review</h2>
                 {reviews.length > 0 ? (
                     reviews.map((review) => (
                         <div key={review.id} className="border rounded-lg p-4 mb-4 shadow-md">
@@ -302,7 +302,7 @@ export default function Page() {
                                 <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                     {review.course?.name
                                         ? review.course.name.charAt(0).toUpperCase() + review.course.name.slice(1)
-                                        : 'คอร์สที่ไม่รู้จัก'}
+                                        : 'unknown course'}
                                 </span>
                                 <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                     ⭐{review.rating}/5
@@ -312,7 +312,7 @@ export default function Page() {
                             <p className="text-gray-700 text-base mb-2">{review.comment}</p>
 
                             <p className="text-sm text-gray-500">
-                                รีวิวเมื่อ {new Date(review.createdAt).toLocaleDateString('th-TH', {
+                                Reviewed on {new Date(review.createdAt).toLocaleDateString('th-TH', {
                                     day: 'numeric',
                                     month: 'long',
                                     year: 'numeric',
@@ -321,7 +321,7 @@ export default function Page() {
                                 })}
                             </p>
                             <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                โดย {review.user?.name || 'ผู้ใช้ที่ไม่รู้จัก'}
+                                By {review.user?.name || 'unknown user'}
                             </span>
                             {/* buutton */}
                             <div className="flex justify-center mt-2">
@@ -339,15 +339,15 @@ export default function Page() {
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500 text-center">ยังไม่มีรีวิว</p>
+                    <p className="text-gray-500 text-center">No reviews </p>
                 )}
 
                 {/* Modal inputdata Popup */}
                 {showModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-                            <h2 className="text-xl font-bold text-green-600">✅ บันทึกรีวิวเรียบร้อย!</h2>
-                            <p className="text-gray-600">หน้าต่างจะปิดใน {countdown} วินาที...</p>
+                            <h2 className="text-xl font-bold text-green-600">✅ Review completed!</h2>
+                            <p className="text-gray-600">window will close in {countdown} second...</p>
                         </div>
                     </div>
                 )}
@@ -356,12 +356,12 @@ export default function Page() {
                 {showEditModal && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm animate-fade-in">
                         <div className="bg-white p-6 rounded-2xl shadow-xl w-[700px] h-[500px] max-w-[90%] transform transition-all duration-300">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">แก้ไขรีวิว</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Edit review</h2>
 
-                            <label className="block text-gray-700 font-semibold">ชื่อคอร์ส:</label>
+                            <label className="block text-gray-700 font-semibold">Course name:</label>
                             <p className="bg-gray-100 text-gray-800 p-2 rounded-lg">{dataEdit.editCourse}</p>
 
-                            <label className="block mt-4 text-gray-700 font-semibold">รีวิวของคุณ</label>
+                            <label className="block mt-4 text-gray-700 font-semibold">Your review</label>
                             <textarea
                                 className="w-full p-3 border border-gray-300 rounded-lg mt-2 text-black focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
                                 name="editContent"
@@ -370,7 +370,7 @@ export default function Page() {
                                 rows={4}
                             ></textarea>
 
-                            <label className="block mt-4 text-gray-700 font-semibold">⭐ ให้คะแนน (0-5)</label>
+                            <label className="block mt-4 text-gray-700 font-semibold">⭐ Rate (0-5)</label>
                             <input
                                 className="w-full p-2 border border-gray-300 rounded-lg text-black focus:ring-2 focus:ring-blue-400 focus:outline-none"
                                 type="number" min="0" max="5"
@@ -384,13 +384,13 @@ export default function Page() {
                                     className="flex-1 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-all duration-200 mx-1"
                                     onClick={() => handleSubmitEdit(dataEdit.editCourseId)}
                                 >
-                                    ✅ ตกลง
+                                    ✅ confirm
                                 </button>
                                 <button
                                     className="flex-1 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-200 mx-1"
                                     onClick={() => setShowEditModal(false)}
                                 >
-                                    ❌ ยกเลิก
+                                    ❌ cancel
                                 </button>
                             </div>
                         </div>
